@@ -420,17 +420,6 @@ namespace ddg
 
 int main()
 {
-    ddg::string str = "Ana are mere si vrea sa le vanda pe toate!\n";
-    std::cout << str;
-    int last = 0;
-    int pos = str.find(' ', 0);
-    while(pos < str.size())
-    {
-        std::cout << "pos: " << pos << " | last: " << last << " :";
-        std::cout << str.substr(last, pos-last) << "\n";
-        last = pos + 1;
-        pos = str.find(' ', last);
-    }
-    std::cout << str.substr(last);
+
     return 0;
 }
