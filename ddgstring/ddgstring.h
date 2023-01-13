@@ -60,8 +60,6 @@ namespace ddg {
 
     void cratime(string& str);
 
-    bool iscrat(const string& str1, const string& str2);
-
     int crat(string& str);
 
     void concat(string& dest, string& src);

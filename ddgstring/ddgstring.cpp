@@ -1,4 +1,4 @@
-#include <iostream>
+
 #include "ddgstring.h"
 #include <string.h>
 
@@ -299,7 +299,7 @@ namespace ddg
 
         string v[3] = { "tiam", "uitel", "miai" };
         string v_corect[3] = { "ti-am", "uite-l", "mi-ai" };
-
+                                                                                    //NOT MY METHOD
         uint32_t whitespace = str.find(' ');
         uint32_t last = 0;
         while (whitespace < str.size())
@@ -368,7 +368,6 @@ namespace ddg
             {
                 if (j == i)
                 {
-
                     str.data[j] = { '-' };
                 }
                 if (j > i)
@@ -401,52 +400,7 @@ namespace ddg
                 return s3[i].m_size - 1;
         }
         return 10000;
-    }
-
-    bool iscrat(const string& str1, const string& str2)
-    {
-        int count = 0;
-        int poz1 = 0;
-        int poz2 = 0;
-        int dim = 0;
-        string temp1, temp2;
-        for (int i = 0; i < str1.m_size; ++i)
-        {
-            if (str1[i] == ' ' || str1[i] == '\0')
-            {
-                poz2 = i;
-                if (i == 0)
-                {
-                    temp1 = str1.substr(0, poz2 - 1);
-                }
-                else
-                {
-                    temp1 = str1.substr(poz1 + 1, poz2 - poz1);
-                }
-                std::cout << temp1 << '\n';
-                if (temp1 == str2)
-                {
-                    for (int k = i + 1; k < str1.m_size; ++k)
-                    {
-                        if (str1[k] == ' ' || str1[k] == '\0')
-                        {
-                            dim = k - i;
-                            break;
-                        }
-                    }
-                    temp2 = str1.substr(i + 1, dim);
-                    std::cout << temp2 << '\n';
-                    for (int j = 0; j < verbtor_size; ++j)
-                    {
-                        if (temp2 == verbtor[j])
-                            return true;
-                    }
-                }
-                poz1 = i;
-            }
-        }
-        return false;
-    }
+    }   
 
     void cratime(string& str)
     {
@@ -462,7 +416,6 @@ namespace ddg
             {
                 str.data = (char*)realloc(str.data, sizeof(char) * str.m_size + pozcuv + 2);
                 aux3 = str.data[str.m_size-1+pozcuv];
-                std::cout << aux3 << " ";
                 aux = str.data[found[index][i] + pozcrat];
                 aux2 = str.data[found[index][i] + pozcrat + 1];
                 str.data[found[index][i] + pozcrat] = '-';                      
@@ -475,15 +428,12 @@ namespace ddg
                     aux = aux2;
                 }
                 str.data[str.m_size+pozcuv] = aux3;
-                std::cout << str.data[str.m_size+pozcuv] << " ";
                 str.data[str.m_size + 1 + pozcuv] = '\0';
-                std::cout << str.data << '\n';
                 pozcuv++;
                 index++;
                 found[index][i] = str.find(cuvsus[i]);
                 
             }
-            std::cout << "Cuvantul " << cuvsus[i] << " a fost gasit de " << index << " ori" << '\n';
         }
     }
 
@@ -493,5 +443,4 @@ namespace ddg
             os << str.data;
         return os;
     }
-
 }
