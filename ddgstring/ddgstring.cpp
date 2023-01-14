@@ -5,13 +5,14 @@
 #define marime_vector 6
 #define marime_str 7
 #define sus_size 12
-#define verbtor_size 1
+#define verbtor_size 13
 
 namespace ddg
 {
-    char string::delim[marime_vector] = { ' ', '.', ',', '\0', '?', '!' };
-    string cuvsus[sus_size] = { "tiam", "miai","sami","neam","sati","nui","neati","iam", "sa","ia","uitel","nam" };
-    string verbtor[verbtor_size] = { "cunoscut" };
+    char string::delim[marime_vector] = { ' ' , '.', ',', '\0', ' ? ', '!'};
+    char spatiu[marime_vector] = { ' ' , '.', ',', '\0', ' ? ', '!' };
+    string cuvsus[sus_size] = { "tiam", "miai","sami","neam","sati","nui","neati","iam", "sa","ia","uitel","nam"};
+    string verbtor[verbtor_size] = { "gasit" ,"cunoscut","facut", "spus","cautat","luat","mancat","cercetat","promis","iertat","decis","dat","zis"};
 
     char* data;
     static char delim[marime_vector];
@@ -231,6 +232,7 @@ namespace ddg
                 j++;
             }
             tmp.data[j] = '\0';
+            tmp.m_size = m_size - pos;
         }
         else
         {
@@ -241,6 +243,7 @@ namespace ddg
                 j++;
             }
             tmp.data[j] = '\0';
+            tmp.m_size = count;
         }
         return tmp;
     }
@@ -356,29 +359,6 @@ namespace ddg
         dest.data[dest.m_size + src.m_size] = '\0';
     }
 
-    void putcrat(string& str)
-    {
-        int i = crat(str);
-        int index = str.m_size;
-        char aux;
-        str.data = (char*)realloc(str.data, str.m_size + 2);
-        if (i < str.m_size)
-        {  
-            for (int j = str.m_size; j >0; --j)
-            {
-                if (j == i)
-                {
-                    str.data[j] = { '-' };
-                }
-                if (j > i)
-                {
-                    str.data[j] = str.data[j - 1];
-                }
-            }
-            str.data[str.m_size+1] = '\0';
-        }
-    }
-
     int crat(string& str)
     {
         string s1[4] = { "iam", "sa","ia","nam" };
@@ -405,8 +385,11 @@ namespace ddg
     void cratime(string& str)
     {
         int found[100][marime_str];
+        int poz2 = 0;
         char aux, aux2,aux3;
+        string temp;
         int k = 0,pozcrat = 0,pozcuv = 0;
+        bool isus = false;
         for (int i = 0; i < sus_size; ++i)
         {
             int index = 0;
@@ -414,25 +397,51 @@ namespace ddg
             pozcrat = crat(cuvsus[i]);
             while (found[index][i] < str.m_size)
             {
-                str.data = (char*)realloc(str.data, sizeof(char) * str.m_size + pozcuv + 2);
-                aux3 = str.data[str.m_size-1+pozcuv];
-                aux = str.data[found[index][i] + pozcrat];
-                aux2 = str.data[found[index][i] + pozcrat + 1];
-                str.data[found[index][i] + pozcrat] = '-';                      
-                str.data[found[index][i] + pozcrat + 1] = aux;
-                aux = aux2;
-                for (int j = found[index][i] + pozcrat + 2; j < str.m_size+pozcuv; ++j)
+                isus = false;
+                for (int poz = found[index][i] + cuvsus[i].m_size + 1 ; poz < str.m_size; ++poz)
                 {
-                    aux2 = str.data[j];
-                    str.data[j] = aux;
-                    aux = aux2;
+                    poz2 = poz;
+                    if (str.data[poz] == ' ')
+                    {
+                        break;
+                    }
                 }
-                str.data[str.m_size+pozcuv] = aux3;
-                str.data[str.m_size + 1 + pozcuv] = '\0';
-                pozcuv++;
-                index++;
-                found[index][i] = str.find(cuvsus[i]);
-                
+                for(int l = 0; l<verbtor_size; ++l)
+                { 
+                    if (str.substr(found[index][i] + cuvsus[i].m_size + 1, poz2 - (found[index][i] + cuvsus[i].m_size)-1) == verbtor[l])
+                    {
+                        isus = true;
+                        break;
+                    }
+                }
+                if (isus)
+                {
+                    str.data = (char*)realloc(str.data, sizeof(char) * str.m_size + pozcuv + 2);
+                    aux3 = str.data[str.m_size - 1 + pozcuv];
+                    aux = str.data[found[index][i] + pozcrat];
+                    aux2 = str.data[found[index][i] + pozcrat + 1];
+                    str.data[found[index][i] + pozcrat] = '-';
+                    str.data[found[index][i] + pozcrat + 1] = aux;
+                    aux = aux2;
+                    for (int j = found[index][i] + pozcrat + 2; j < str.m_size + pozcuv; ++j)
+                    {
+                        aux2 = str.data[j];
+                        str.data[j] = aux;
+                        aux = aux2;
+                    }
+                    str.data[str.m_size + pozcuv] = aux3;
+                    str.data[str.m_size + 1 + pozcuv] = '\0';
+                    pozcuv++;
+                    index++;
+                    found[index][i] = str.find(cuvsus[i]);
+                }
+                else
+                {
+                    index++;
+                    found[index][i] = str.substr(poz2+1).find(cuvsus[i]) + poz2+1;
+                    if (found[index][i] == str.substr(poz2 + 1).m_size)
+                        found[index][i] = str.m_size;
+                }
             }
         }
     }
