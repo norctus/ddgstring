@@ -56,8 +56,6 @@ namespace ddg {
 
     //void myCratime(string& str);
 
-    void putcrat(string& str);
-
     void cratime(string& str);
 
     int crat(string& str);

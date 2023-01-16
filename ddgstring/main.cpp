@@ -5,7 +5,7 @@ using namespace ddg;
 
 int main()
 {
-	string s1("Un neam ia gasit mingea in curtea si neam decis sa ii multumim pentru ca mia dat un leu si mia zis ia de aici");
+	string s1("Un copil mia gasit mingea si iam spus multumesc ca mai ajutat si ne mai vedem, sper ca lam cunoscut bine");
 	cratime(s1);
 	std::cout << s1;
 	

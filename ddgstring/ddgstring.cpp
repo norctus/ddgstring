@@ -4,15 +4,15 @@
 
 #define marime_vector 6
 #define marime_str 7
-#define sus_size 12
-#define verbtor_size 13
+#define sus_size 13
+#define verbtor_size 14
 
 namespace ddg
 {
     char string::delim[marime_vector] = { ' ' , '.', ',', '\0', ' ? ', '!'};
     char spatiu[marime_vector] = { ' ' , '.', ',', '\0', ' ? ', '!' };
-    string cuvsus[sus_size] = { "tiam", "miai","sami","neam","sati","nui","neati","iam", "sa","ia","uitel","nam"};
-    string verbtor[verbtor_size] = { "gasit" ,"cunoscut","facut", "spus","cautat","luat","mancat","cercetat","promis","iertat","decis","dat","zis"};
+    string cuvsus[sus_size] = { "tiam", "miai","sami","neam","sati","nui","neati","iam", "sa","ia","uitel","nam","lam"};
+    string verbtor[verbtor_size] = { "gasit" ,"cunoscut","facut", "spus","cautat","luat","mancat","cercetat","promis","iertat","decis","dat","zis","iubit"};
 
     char* data;
     static char delim[marime_vector];
@@ -361,10 +361,10 @@ namespace ddg
 
     int crat(string& str)
     {
-        string s1[4] = { "iam", "sa","ia","nam" };
+        string s1[5] = { "iam", "sa","ia","nam","lam"};
         string s2[7] = { "tiam", "miai","sami","neam","sati","nui","neati" };
         string s3[1] = { "uitel" };
-        for (int i = 0; i < 4; ++i)
+        for (int i = 0; i < 5; ++i)
         {
             if (str == s1[i] && str.m_size == s1[i].m_size)
                 return 1;
@@ -398,10 +398,10 @@ namespace ddg
             while (found[index][i] < str.m_size)
             {
                 isus = false;
-                for (int poz = found[index][i] + cuvsus[i].m_size + 1 ; poz < str.m_size; ++poz)
+                for (int poz = found[index][i] + cuvsus[i].m_size + 1 ; poz <= str.m_size; ++poz)
                 {
                     poz2 = poz;
-                    if (str.data[poz] == ' ')
+                    if (str.data[poz] == ' ' || str.data[poz] == '\0')
                     {
                         break;
                     }
