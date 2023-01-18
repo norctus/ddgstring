@@ -4,14 +4,16 @@
 
 #define marime_vector 6
 #define marime_str 7
-#define sus_size 13
+#define sus_size 16
+#define defsus 4
 #define verbtor_size 14
 
 namespace ddg
 {
     char string::delim[marime_vector] = { ' ' , '.', ',', '\0', ' ? ', '!'};
     char spatiu[marime_vector] = { ' ' , '.', ',', '\0', ' ? ', '!' };
-    string cuvsus[sus_size] = { "tiam", "miai","sami","neam","sati","nui","neati","iam", "sa","ia","uitel","nam","lam"};
+    string cuvsus[sus_size] = { "tiam", "miai","sami","neam","sati","nui","neati","iam", "sa","ia","nam","lam","uiteo","uitel","prezinto","fama"};
+    string sus[defsus] = { "uitel","fama","uiteo","prezinto" };
     string verbtor[verbtor_size] = { "gasit" ,"cunoscut","facut", "spus","cautat","luat","mancat","cercetat","promis","iertat","decis","dat","zis","iubit"};
 
     char* data;
@@ -20,7 +22,7 @@ namespace ddg
 
     string::string()
     {
-        data = NULL;    //Stringul null
+        data = NULL;    
         m_size = 0;
     }
 
@@ -43,15 +45,14 @@ namespace ddg
     {
         if (data != NULL)
             free(data);
-        data = (char*)malloc(sizeof(char) * str.m_size + 1);    //operatorul egal
+        data = (char*)malloc(sizeof(char) * str.m_size + 1);   
         strcpy_s(data, sizeof(char) * str.m_size +1 , str.data);
         m_size = str.m_size;
     }
 
     string string::operator+(const char* str)
     {
-        char* ret = (char*)malloc(sizeof(char) * m_size + strlen(str) + 1);     //operatorul plus intre un string si un sir de caractere
-        strcpy_s(ret, sizeof(char) * m_size + strlen(str) + 1, data);
+        char* ret = (char*)malloc(sizeof(char) * m_size + strlen(str) + 1);     
         strcat_s(ret, sizeof(char) * m_size + strlen(str) + 1, str);
         m_size = m_size + strlen(str);
         return ret;
@@ -60,7 +61,7 @@ namespace ddg
     string string::operator+(const string& str)
     {
         string ret;
-        ret.data = (char*)malloc(sizeof(char) * (m_size + str.m_size) + 2);   //operatorul plus intre 2 stringuri
+        ret.data = (char*)malloc(sizeof(char) * (m_size + str.m_size) + 2);   
         ret[0] = '\0';
         strcat_s(ret.data, sizeof(char) * m_size  , data);
         strcat_s(ret.data,1, " ");
@@ -70,7 +71,7 @@ namespace ddg
 
     string string::operator-(const char cifra)
     {
-        int r = 0;                                      //operatorul minus intre un ddg::string si un char
+        int r = 0;                                     
         int j = 0;
         for (int i = 0; i < strlen(data); ++i) {
             if (data[i] == cifra)
@@ -104,7 +105,7 @@ namespace ddg
             int gasit = 1;
             for (int j = 0; j < strlen(sir); ++j)
             {
-                if (data[i + j] != sir[j])           //face scaderea intre un string si un sir de caractere
+                if (data[i + j] != sir[j])        
                 {
                     gasit = 0;
                     break;
@@ -135,7 +136,7 @@ namespace ddg
                 }
                 else
                     rep = 0;
-                if (!i)     // BIG BRAIN MOVE!!!!!!!!!! P.S.: Scoate cuvantul chiar daca e primul, nu facea asta pana acum
+                if (!i)    
                     rep = 1;
             }
             if (rep)
@@ -155,7 +156,7 @@ namespace ddg
     bool string::operator==(const string& str)
     {
         bool egal = true;
-        for (int i = 0; i < str.m_size; ++i)         //operatorul egal egal
+        for (int i = 0; i < str.m_size; ++i)        
         {
             if (data[i] != str[i])
                 egal = false;
@@ -166,7 +167,7 @@ namespace ddg
     bool string::operator!=(const string& str)
     {
         bool egal = true;
-        for (int i = 0; i < str.m_size; ++i)         //operatorul non egal
+        for (int i = 0; i < str.m_size; ++i)        
         {
             if (data[i] != str[i])
                 egal = false;
@@ -176,23 +177,23 @@ namespace ddg
 
     char& string::operator[](int index)
     {
-        return data[index];                 //operatorul [] ca sa pot sa fac vectori de stringuri
+        return data[index];                 
     }
 
     const char& string::operator[](int index) const
     {
-        return data[index];                     //acelasi operatori dar pentru constante
+        return data[index];                     
     }
 
     bool string::isDelim(char ch)
     {
-        for (int i = 0; i < marime_vector; ++i)      // o functie care verifica daca caracterul respectiv este o delimitare(micunealta ce ne va ajuta mai tarziu sau mai devreme)
+        for (int i = 0; i < marime_vector; ++i)     
             if (ch == delim[i])
                 return true;
         return false;
     }
 
-    unsigned int size() { return m_size; }           //efectiv size
+    unsigned int size() { return m_size; }          
 
     void string::space_sort()
     {
@@ -204,7 +205,7 @@ namespace ddg
             if (i != 0)
                 index = 1;
             if (data[i] == delim[0])
-            {                                       //functie sper ca originala care sterge toate spatiile in plus dintre subsiruri
+            {                                       
                 poz = i;
             }
             while (data[poz + index] == delim[0])
@@ -228,7 +229,7 @@ namespace ddg
             tmp.data = (char*)malloc(sizeof(char) * (m_size - pos) + 1);
             for (int i = pos; i < m_size; ++i)
             {
-                tmp.data[j] = data[i];                                  //extrage un substring
+                tmp.data[j] = data[i];                               
                 j++;
             }
             tmp.data[j] = '\0';
@@ -250,7 +251,7 @@ namespace ddg
 
     unsigned int string::find(char ch, unsigned int i )
     {
-        for (i; i < m_size; ++i)               //gaseste pozitia unui char pe care dorim sa-l cautam si returneaza indexul
+        for (i; i < m_size; ++i)         
         {
             if (data[i] == ch)
                 return i;
@@ -262,7 +263,7 @@ namespace ddg
     {
         int index;
         int gasit;
-        for (int i = 0; i < m_size; ++i)                         // la fel dar pentru stringuri
+        for (int i = 0; i < m_size; ++i)                 
         {
             gasit = 1;
             index = i;
@@ -362,19 +363,19 @@ namespace ddg
     int crat(string& str)
     {
         string s1[5] = { "iam", "sa","ia","nam","lam"};
-        string s2[7] = { "tiam", "miai","sami","neam","sati","nui","neati" };
-        string s3[1] = { "uitel" };
+        string s2[8] = { "tiam", "miai","sami","neam","sati","nui","neati","fama"};
+        string s3[3] = { "uitel","uiteo","prezinto"};
         for (int i = 0; i < 5; ++i)
         {
             if (str == s1[i] && str.m_size == s1[i].m_size)
                 return 1;
         }
-        for (int i = 0; i < 7; ++i)
+        for (int i = 0; i < 8; ++i)
         {
             if (str == s2[i] && str.m_size == s2[i].m_size)
                 return 2;
         }
-        for (int i = 0; i < 1; ++i)
+        for (int i = 0; i < 3; ++i)
         {
             if (str == s3[i] && str.m_size == s3[i].m_size)
                 return s3[i].m_size - 1;
@@ -409,6 +410,14 @@ namespace ddg
                 for(int l = 0; l<verbtor_size; ++l)
                 { 
                     if (str.substr(found[index][i] + cuvsus[i].m_size + 1, poz2 - (found[index][i] + cuvsus[i].m_size)-1) == verbtor[l])
+                    {
+                        isus = true;
+                        break;
+                    }
+                }
+                for (int l = 0; l < defsus; ++l)
+                {
+                    if (cuvsus[i] == sus[l]) 
                     {
                         isus = true;
                         break;
