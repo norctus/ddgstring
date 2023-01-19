@@ -3,23 +3,20 @@
 My namespace with my own implementation of string with original methods and functions
 
 # Funtions include:
-## cratime()
+## cratime(string&)
 ###### This function will put hypens where they are needed in a phrase in the romanian dialect
 
-## crat()
+## crat(string&)
 ###### Returns the position in a word where there is the hypen needed
 
 # Some methods are:
 ## space_sort()
 ###### It removes aditional spaces in a ddg::string 
 
-## substr()
-###### It returns a substring of the original string
-
 ## I included some of the default string functions too
 
 A code example:
-```
+```cpp
 #include <iostream>
 #include "ddgstring.h"
 
