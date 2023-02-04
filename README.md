@@ -1,5 +1,4 @@
-"# ddgstring" 
-"# ddgstring" 
+
 My namespace with my own implementation of string with original methods and functions
 
 # Funtions include:
