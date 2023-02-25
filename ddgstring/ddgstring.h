@@ -1,9 +1,13 @@
+#ifndef DDGSTRING_
+#define DDGSTRING_
 #include <iostream>
 #include <string.h>
+
 #define marime_vector 6
 #define marime_str 7
-#define sus_size 12
-#define verbtor_size 1
+#define sus_size 16
+#define defsus 4
+#define verbtor_size 14
 
 namespace ddg {
 
@@ -45,16 +49,12 @@ namespace ddg {
 
         unsigned int find(const string& str, unsigned int i = 0);
 
-       // unsigned int myFind(const string& str, unsigned int pos = 0);
-
         ~string();
 
         char* data;
         static char delim[marime_vector];
         unsigned int m_size;
     };
-
-    //void myCratime(string& str);
 
     void cratime(string& str);
 
@@ -64,3 +64,5 @@ namespace ddg {
 
     std::ostream& operator<<(std::ostream& os, const string& var);
 }
+
+#endif

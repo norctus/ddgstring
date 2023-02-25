@@ -1,44 +1,28 @@
-
-#include "ddgstring.h"
 #include <string.h>
-
-#define marime_vector 6
-#define marime_str 7
-#define sus_size 16
-#define defsus 4
-#define verbtor_size 14
+#include "ddgstring.h"
 
 namespace ddg
 {
-    char string::delim[marime_vector] = { ' ' , '.', ',', '\0', ' ? ', '!'};
-    char spatiu[marime_vector] = { ' ' , '.', ',', '\0', ' ? ', '!' };
+    char string::delim[marime_vector] = { ' ' , '.', ',', '\0', '?', '!'};
+    char spatiu[marime_vector] = { ' ' , '.', ',', '\0', '?', '!' };
     string cuvsus[sus_size] = { "tiam", "miai","sami","neam","sati","nui","neati","iam", "sa","ia","nam","lam","uiteo","uitel","prezinto","fama"};
     string sus[defsus] = { "uitel","fama","uiteo","prezinto" };
     string verbtor[verbtor_size] = { "gasit" ,"cunoscut","facut", "spus","cautat","luat","mancat","cercetat","promis","iertat","decis","dat","zis","iubit"};
 
-    char* data;
-    static char delim[marime_vector];
-    unsigned int m_size;
-
     string::string()
-    {
-        data = NULL;    
-        m_size = 0;
-    }
+        : data(NULL), m_size(0)
+    {}
 
     string::string(const char* str)
+        : data((char*)malloc(sizeof(char) * strlen(str) + 1)), m_size(strlen(str))
     {
-        data = (char*)malloc(sizeof(char) * strlen(str) + 1);
-        strcpy_s(data,sizeof(char)*strlen(str)+1, str);
-        m_size = strlen(str);
-        data[m_size] = '\0';
+        strcpy(data,str);
     }
 
     string::string(const string& other)
+        : data((char*)malloc(sizeof(char) * other.m_size + 1)), m_size(other.m_size)
     {
-        data = (char*)malloc(sizeof(char) * other.m_size + 1);
-        strcpy_s(data,sizeof(char) * other.m_size + 1, other.data);
-        m_size = other.m_size;
+        strcpy(data, other.data);
     }
 
     void string::operator=(const string& str)
@@ -46,14 +30,14 @@ namespace ddg
         if (data != NULL)
             free(data);
         data = (char*)malloc(sizeof(char) * str.m_size + 1);   
-        strcpy_s(data, sizeof(char) * str.m_size +1 , str.data);
+        strcpy(data, str.data);
         m_size = str.m_size;
     }
 
     string string::operator+(const char* str)
     {
         char* ret = (char*)malloc(sizeof(char) * m_size + strlen(str) + 1);     
-        strcat_s(ret, sizeof(char) * m_size + strlen(str) + 1, str);
+        strcat(ret, str);
         m_size = m_size + strlen(str);
         return ret;
     }
@@ -63,9 +47,9 @@ namespace ddg
         string ret;
         ret.data = (char*)malloc(sizeof(char) * (m_size + str.m_size) + 2);   
         ret[0] = '\0';
-        strcat_s(ret.data, sizeof(char) * m_size  , data);
-        strcat_s(ret.data,1, " ");
-        strcat_s(ret.data, sizeof(char)* str.m_size +1, str.data);
+        strcat(ret.data, data);
+        strcat(ret.data, " ");
+        strcat(ret.data, str.data);
         return ret;
     }
 
@@ -193,8 +177,6 @@ namespace ddg
         return false;
     }
 
-    unsigned int size() { return m_size; }          
-
     void string::space_sort()
     {
         int poz = 0;
@@ -251,7 +233,7 @@ namespace ddg
 
     unsigned int string::find(char ch, unsigned int i )
     {
-        for (i; i < m_size; ++i)         
+        for (; i < m_size; ++i)         
         {
             if (data[i] == ch)
                 return i;
@@ -278,72 +260,6 @@ namespace ddg
         }
         return m_size;
     }
-
-    /*unsigned int string::myFind(const string& str, unsigned int pos)
-    {
-        if (m_size < str.m_size)
-            return m_size;
-
-        for (uint32_t i = 0; i < m_size - str.m_size + 1; ++i)
-        {
-            bool found = true;
-            for (uint32_t j = 0; j < str.m_size; ++j)
-            {
-                if (data[i] != data[j])
-                    found = false;
-            }
-            if (found)
-                return i;
-        }
-        return m_size;
-    }
-
-    void myCratime(string& str)
-    {
-
-        string v[3] = { "tiam", "uitel", "miai" };
-        string v_corect[3] = { "ti-am", "uite-l", "mi-ai" };
-                                                                                    //NOT MY METHOD
-        uint32_t whitespace = str.find(' ');
-        uint32_t last = 0;
-        while (whitespace < str.size())
-        {
-            ddg::string cuvant = str.substr(last, whitespace - last);
-            
-            bool sus = false;
-            int index;
-            for (int i = 0; i < 3; ++i)
-            {
-                if (cuvant == v[i])
-                {
-                    index = i;
-                    sus = true;
-                    break;
-                }
-            }
-            if (sus)
-            {
-                char* temp = (char*)malloc(str.m_size + 2);
-                for (int i = 0; i < str.m_size + 1; ++i)
-                {
-                    temp[i] = str[i];
-                }
-                for (int i = str.m_size + 1; i >= last + v_corect[index].find('-'); --i)
-                {
-                    temp[i] = temp[i - 1];
-                }
-                temp[last + v_corect[index].find('-')] = '-';
-                free(str.data);
-                str.data = temp;
-                str.m_size += 1;
-                
-            }
-
-            last = whitespace + 1;
-            whitespace = str.find(' ', last);
-        }
-    }
-    */
 
     string::~string()
     {
