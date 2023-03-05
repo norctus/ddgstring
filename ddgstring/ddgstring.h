@@ -49,6 +49,10 @@ namespace ddg {
 
         unsigned int find(const string& str, unsigned int i = 0);
 
+        void erase(unsigned int poz);
+
+        void erase(unsigned int first, unsigned int last);
+
         ~string();
 
         char* data;
@@ -56,11 +60,11 @@ namespace ddg {
         unsigned int m_size;
     };
 
-    void cratime(string& str);
+    void concat(string& dest, string& src);
 
     int crat(string& str);
 
-    void concat(string& dest, string& src);
+    void cratime(string& str);
 
     std::ostream& operator<<(std::ostream& os, const string& var);
 }

@@ -78,8 +78,6 @@ namespace ddg
         return ret;
     }
 
-    unsigned int string::size() { return m_size; }
-
     string string::operator-(const char* sir)
     {
         int count = 0;
@@ -177,6 +175,8 @@ namespace ddg
         return false;
     }
 
+    unsigned int string::size() { return m_size; }
+
     void string::space_sort()
     {
         int poz = 0;
@@ -200,6 +200,7 @@ namespace ddg
             }
             data[m_size - spatii] = '\0';
         }
+        m_size -= spatii;
     }
 
     string string::substr(unsigned int pos, unsigned int count ) const
@@ -241,7 +242,7 @@ namespace ddg
         return m_size;
     }
 
-    unsigned int string::find(const string& str, unsigned int i)
+    unsigned int string::find(const string& str, unsigned int i )
     {
         int index;
         int gasit;
@@ -259,6 +260,35 @@ namespace ddg
                 return i;
         }
         return m_size;
+    }
+
+    void string::erase(unsigned int poz)
+    {
+        data[poz] = ' ';
+        for(int i = poz; i<m_size; ++i)
+        {
+            data[i] = data[i+1];
+        }
+        m_size--; 
+    }
+
+    void string::erase(unsigned int first, unsigned int last)
+    {
+        int j = 0;
+        for(int i = 0; i<m_size; ++i)
+        {
+            if(i>=first && i<=last)
+            {
+                data[i] = ' ';
+            }
+            else
+            {
+                data[j] = data[i];
+                ++j;
+            }
+        }
+        m_size -= (last - first + 1);
+        data[m_size] = '\0';
     }
 
     string::~string()
@@ -305,7 +335,7 @@ namespace ddg
         int poz2 = 0;
         char aux, aux2,aux3;
         string temp;
-        int k = 0,pozcrat = 0,pozcuv = 0;
+        int pozcrat = 0,pozcuv = 0;
         bool isus = false;
         for (int i = 0; i < sus_size; ++i)
         {
@@ -368,6 +398,7 @@ namespace ddg
                         found[index][i] = str.m_size;
                 }
             }
+            str.m_size += index;
         }
     }
 
